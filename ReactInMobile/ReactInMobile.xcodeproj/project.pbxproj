@@ -11,6 +11,8 @@
 		09AF0AD82B357917002C3C99 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF0AD72B357917002C3C99 /* ContentView.swift */; };
 		09AF0ADA2B35791A002C3C99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09AF0AD92B35791A002C3C99 /* Assets.xcassets */; };
 		09AF0ADD2B35791A002C3C99 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09AF0ADC2B35791A002C3C99 /* Preview Assets.xcassets */; };
+		09AF0AE52B3579CE002C3C99 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF0AE42B3579CE002C3C99 /* WebView.swift */; };
+		09AF0AEA2B358492002C3C99 /* dist in Resources */ = {isa = PBXBuildFile; fileRef = 09AF0AE92B358492002C3C99 /* dist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		09AF0AD92B35791A002C3C99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09AF0ADC2B35791A002C3C99 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		09AF0ADE2B35791A002C3C99 /* ReactInMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReactInMobile.entitlements; sourceTree = "<group>"; };
+		09AF0AE42B3579CE002C3C99 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		09AF0AE92B358492002C3C99 /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = ../web/dist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +40,7 @@
 		09AF0AC92B357917002C3C99 = {
 			isa = PBXGroup;
 			children = (
+				09AF0AE92B358492002C3C99 /* dist */,
 				09AF0AD42B357917002C3C99 /* ReactInMobile */,
 				09AF0AD32B357917002C3C99 /* Products */,
 			);
@@ -55,6 +60,7 @@
 				09AF0AD52B357917002C3C99 /* ReactInMobileApp.swift */,
 				09AF0AD72B357917002C3C99 /* ContentView.swift */,
 				09AF0AD92B35791A002C3C99 /* Assets.xcassets */,
+				09AF0AE42B3579CE002C3C99 /* WebView.swift */,
 				09AF0ADE2B35791A002C3C99 /* ReactInMobile.entitlements */,
 				09AF0ADB2B35791A002C3C99 /* Preview Content */,
 			);
@@ -76,6 +82,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09AF0AE12B35791A002C3C99 /* Build configuration list for PBXNativeTarget "ReactInMobile" */;
 			buildPhases = (
+				09AF0AE62B357AFC002C3C99 /* ShellScript */,
 				09AF0ACE2B357917002C3C99 /* Sources */,
 				09AF0ACF2B357917002C3C99 /* Frameworks */,
 				09AF0AD02B357917002C3C99 /* Resources */,
@@ -127,6 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09AF0AEA2B358492002C3C99 /* dist in Resources */,
 				09AF0ADD2B35791A002C3C99 /* Preview Assets.xcassets in Resources */,
 				09AF0ADA2B35791A002C3C99 /* Assets.xcassets in Resources */,
 			);
@@ -134,11 +142,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		09AF0AE62B357AFC002C3C99 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This will clear the dist directory in the iOS app if there is one from a previous build\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/dist\"\n\n# This will use nvm to install Node.js v20 and use it to build the web app\n# If Node.js 20 is already installed, it will use that\nexport NVM_DIR=\"$HOME/.nvm\"\nif [ -s \"$NVM_DIR/nvm.sh\" ]; then\n  . \"$NVM_DIR/nvm.sh\"\n  nvm install 20\n  nvm use 20\nelse\n  # If nvm is not available, use the system-installed node\n  export PATH=\"/usr/local/bin:$PATH\"\nfi\n# This script will go up a directory to find the web app\ncd ../web\n# This will install the dependencies for the web app (if they are not already installed)\nnpm install\n# This will build the web app\nnpm run build\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		09AF0ACE2B357917002C3C99 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09AF0AE52B3579CE002C3C99 /* WebView.swift in Sources */,
 				09AF0AD82B357917002C3C99 /* ContentView.swift in Sources */,
 				09AF0AD62B357917002C3C99 /* ReactInMobileApp.swift in Sources */,
 			);
@@ -197,6 +226,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MACOSX_DEPLOYMENT_TARGET = 12.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -251,6 +281,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MACOSX_DEPLOYMENT_TARGET = 12.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -280,8 +311,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-.ReactInMobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -305,8 +340,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-.ReactInMobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
